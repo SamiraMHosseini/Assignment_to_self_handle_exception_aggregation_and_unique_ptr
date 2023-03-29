@@ -22,8 +22,8 @@ public:
 class SmartDog
 {
 public:
-	SmartDog(std::unique_ptr<Collar> puCollar_, const std::string& dogName_) :
-		puCollar(std::move(puCollar_)), dogName(dogName_)
+	SmartDog(std::unique_ptr<Collar> pCollar_, const std::string& dogName_) :
+		pCollar(std::move(pCollar_)), dogName(dogName_)
 	{
 
 	}
@@ -31,7 +31,7 @@ public:
 
 	SmartDog(const SmartDog& smartDog)
 	{
-		this->puCollar = std::make_unique<Collar>(smartDog.puCollar->type, smartDog.puCollar->colorName);
+		this->pCollar = std::make_unique<Collar>(smartDog.pCollar->type, smartDog.pCollar->colorName);
 		this->dogName = smartDog.dogName;
 	}
 
@@ -42,8 +42,8 @@ public:
 
 			try
 			{
-				std::unique_ptr<Collar>  pTempCollar = std::make_unique<Collar>(smartDog.puCollar->type, smartDog.puCollar->colorName);
-				this->puCollar = std::move(pTempCollar);
+				std::unique_ptr<Collar>  pTempCollar = std::make_unique<Collar>(smartDog.pCollar->type, smartDog.pCollar->colorName);
+				this->pCollar = std::move(pTempCollar);
 				this->dogName = smartDog.dogName;
 			}
 			catch (const std::bad_alloc& st)
@@ -59,8 +59,13 @@ public:
 
 
 	~SmartDog() = default;
-
-	std::unique_ptr<Collar> puCollar; //There is an aggregation relationship between Dog and Collar
+	//There is an aggregation relationship between Dog and Collar 
+	//The pointer is not owned by the class Dog
+	/*
+	This sentence means that the Dog class has a Collar class as one of its properties or attributes. 
+	In other words, a Dog can have a Collar, but the Collar does not depend on the existence of the Dog.
+	*/
+	std::unique_ptr<Collar> pCollar; 
 	std::string dogName;
 };
 
